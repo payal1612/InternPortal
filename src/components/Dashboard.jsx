@@ -16,8 +16,7 @@ import {
   Zap,
   Coffee,
   BookOpen,
-  Briefcase,
-  Lock
+  Briefcase
 } from 'lucide-react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
@@ -137,7 +136,7 @@ const Dashboard = () => {
         {/* Welcome Section */}
         <div className="mb-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl p-8 text-white shadow-xl">
           <h2 className="text-4xl font-bold mb-2">
-            Welcome back, {user?.name}!
+            Welcome back, {user?.name}! 
           </h2>
           <p className="text-blue-100 text-lg">Ready to make a difference today? Here's your impact dashboard</p>
           <div className="mt-6 flex items-center space-x-6">
@@ -154,7 +153,6 @@ const Dashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Total Raised Card */}
           <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group">
             <div className="flex items-center justify-between">
               <div>
@@ -171,7 +169,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Referral Code Card */}
           <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group">
             <div className="flex items-center justify-between">
               <div>
@@ -197,15 +194,14 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Member Since Card */}
           <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Member Since</p>
                 <p className="text-2xl font-bold text-purple-600">
-                  {new Date(user?.joinDate || '').toLocaleDateString('en-US', {
-                    month: 'short',
-                    year: 'numeric'
+                  {new Date(user?.joinDate || '').toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    year: 'numeric' 
                   })}
                 </p>
               </div>
@@ -238,20 +234,24 @@ const Dashboard = () => {
               return (
                 <div
                   key={reward.id}
-                  className={`relative p-6 rounded-2xl border-2 transition-all duration-300 group ${
+                  className={`p-6 rounded-2xl border-2 transition-all duration-300 group cursor-pointer ${
                     reward.unlocked
-                      ? 'border-green-200 bg-green-50/50 hover:shadow-lg hover:scale-105 cursor-pointer'
-                      : 'border-gray-200 bg-gray-50/50'
+                      ? 'border-green-200 bg-green-50/50 hover:shadow-lg hover:scale-105'
+                      : 'border-gray-200 bg-gray-50/50 opacity-60 hover:opacity-80'
                   }`}
                 >
                   <div className="text-center">
-                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-gradient-to-r ${getRewardTypeColor(reward.type)} shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent className="w-8 h-8 text-white group-hover:rotate-12 transition-transform duration-300" />
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                      reward.unlocked 
+                        ? `bg-gradient-to-r ${getRewardTypeColor(reward.type)} shadow-lg group-hover:scale-110` 
+                        : 'bg-gray-100 group-hover:bg-gray-200'
+                    }`}>
+                      <IconComponent className={`w-8 h-8 ${reward.unlocked ? 'text-white' : 'text-gray-400'} transition-transform duration-300 group-hover:rotate-12`} />
                     </div>
                     <h4 className="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{reward.title}</h4>
                     <p className="text-sm text-gray-600 mb-3">{reward.description}</p>
                     <div className="text-xs font-semibold">
-                      <span className={`px-2 py-1 rounded-full bg-green-100 text-green-700`}>
+                      <span className={`px-2 py-1 rounded-full ${reward.unlocked ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
                         {reward.type.charAt(0).toUpperCase() + reward.type.slice(1)}
                       </span>
                     </div>
@@ -261,15 +261,6 @@ const Dashboard = () => {
                       </div>
                     )}
                   </div>
-
-                  {!reward.unlocked && (
-                    <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-2xl backdrop-blur-sm">
-                      <div className="text-center">
-                        <Lock className="w-8 h-8 text-gray-600 mx-auto mb-2" />
-                        <span className="text-sm font-semibold text-gray-700">Locked</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               );
             })}
